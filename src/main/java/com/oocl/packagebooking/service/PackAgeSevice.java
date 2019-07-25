@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class PackAgeSevice {
@@ -28,5 +29,17 @@ public class PackAgeSevice {
     public List<PackAge> findByState(String state) {
         List<PackAge> byState = packAgeResponsity.findByState(state);
         return byState;
+    }
+
+    public PackAge changeState(PackAge packAge, String id) {
+        Optional<PackAge> packAgeOptional = packAgeResponsity.findById(Integer.valueOf(id));
+        PackAge packAge1=null;
+        if (packAgeOptional.isPresent()) {
+
+             packAge1 = packAgeOptional.get();
+            packAge1.setState(packAge.getState());
+            packAgeResponsity.save(packAge1);
+        }
+      return packAge1;
     }
 }

@@ -35,4 +35,9 @@ public class PackAgeController {
         return ResponseEntity.ok().body(packAgeList);
     }
 
+    @PutMapping("/{id}")
+    public ResponseEntity changeParkingLot(@RequestBody PackAge packAge,@PathVariable("id")String id) {
+
+        return ResponseEntity.ok().body(packAgeSevice.changeState(packAge,id));
+    }
 }

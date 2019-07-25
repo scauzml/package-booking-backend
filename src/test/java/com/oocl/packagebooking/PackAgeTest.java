@@ -19,8 +19,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import java.time.LocalDateTime;
 import java.util.Date;
 
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @ExtendWith(SpringExtension.class)
@@ -95,7 +94,7 @@ public class PackAgeTest {
     }
 
     @Test
-    public void should_return_is_state_is_aleady_book_packageMessage_when_get_PackAge() throws Exception{
+    public void should_return_is_right_state_package_is_get_package_by_state_when_get_PackAge() throws Exception{
         //given
         PackAge packAge = new PackAge();
         packAge.setCustomerName("customer1");
@@ -126,5 +125,29 @@ public class PackAgeTest {
     }
 
 
+    @Test
+    public void should_return_is_is_ok_is_put_to_change_package_state() throws Exception{
+        //given
+        PackAge packAge = new PackAge();
+        packAge.setCustomerName("customer1");
+        packAge.setPhone("1111");
+        packAge.setState("已预约");
+        LocalDateTime startTime = LocateDateUtil.getLocalDateTime(new Date());
+        packAge.setLoaclDateTime(startTime);
+        PackAge packAge1 = packAgeResponsity.save(packAge);
+
+        packAge1.setState("已取件");
+        JSONObject jsonObject = new JSONObject(packAge1);
+        //when
+        String result=this.mockMvc.perform(put("/packages/"+packAge1.getId()).content(jsonObject.toString())
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk()).andReturn().getResponse().getContentAsString();
+        //then
+
+        JSONObject jsonObject1 = new JSONObject(result);
+        Assertions.assertEquals("已取件",jsonObject1.getString("state"));
+
+    }
 
 }
