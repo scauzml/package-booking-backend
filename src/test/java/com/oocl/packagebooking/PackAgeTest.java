@@ -1,7 +1,6 @@
 package com.oocl.packagebooking;
 
-import com.oocl.packagebooking.dao.BookPickGoodResponsity;
-import com.oocl.packagebooking.entity.BookPickGood;
+import com.oocl.packagebooking.entity.PackAge;
 import com.oocl.packagebooking.util.LocateDateUtil;
 import org.json.JSONObject;
 import org.junit.jupiter.api.Assertions;
@@ -24,40 +23,40 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
 @AutoConfigureMockMvc
-public class GetFoodTest {
+public class PackAgeTest {
 
     @Autowired
     MockMvc mockMvc;
     @Autowired
-    BookPickGoodResponsity bookPickGoodResponsity;
+
     @BeforeEach
     public void beforeEach() {
-        bookPickGoodResponsity.deleteAll();
+
     }
 
+
     @Test
-    public void should_return_is_created_when_post_bookpickgood_to_save() throws Exception{
+    public void should_return_is_created_when_post_PackAge_to_save() throws Exception{
         //given
-        BookPickGood bookPickGood = new BookPickGood();
+        PackAge packAge = new PackAge();
+        packAge.setCustomerName("customer1");
+        packAge.setPhone("1111");
+        packAge.setState("未取件");
         LocalDateTime startTime = LocateDateUtil.getLocalDateTime(new Date());
-         bookPickGood.setGoodId("11");
-         bookPickGood.setLoaclDateTime(startTime);
-
-        JSONObject jsonObject = new JSONObject(bookPickGood);
-
+        packAge.setLoaclDateTime(startTime);
+        JSONObject jsonObject = new JSONObject(packAge);
         //when
         //when
-        String result=this.mockMvc.perform(post("/Goods/addBookPickGood").content(jsonObject.toString())
+        String result=this.mockMvc.perform(post("/packages/addPackage").content(jsonObject.toString())
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isCreated()).andReturn().getResponse().getContentAsString();
         //then
         JSONObject jsonObject1=new JSONObject(result);
-        Assertions.assertEquals("11",jsonObject.getString("goodId"));
+        Assertions.assertEquals("customer1",jsonObject.getString("customerName"));
 
 
     }
-
 
 
 

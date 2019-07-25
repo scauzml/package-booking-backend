@@ -22,4 +22,6 @@ public class GoodController {
         BookPickGood bookPickGood1=bookPickGoodService.save(bookPickGood);
         return bookPickGood1!=null? ResponseEntity.status(HttpStatus.CREATED).body(bookPickGood1):ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
     }
+
+
 }
