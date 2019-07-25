@@ -94,6 +94,37 @@ public class PackAgeTest {
 
     }
 
+    @Test
+    public void should_return_is_state_is_aleady_book_packageMessage_when_get_PackAge() throws Exception{
+        //given
+        PackAge packAge = new PackAge();
+        packAge.setCustomerName("customer1");
+        packAge.setPhone("1111");
+        packAge.setState("已预约");
+        LocalDateTime startTime = LocateDateUtil.getLocalDateTime(new Date());
+        packAge.setLoaclDateTime(startTime);
+        PackAge packAge1 = new PackAge();
+        packAge1.setCustomerName("customer2");
+        packAge1.setPhone("1111");
+        packAge1.setState("未取件");
+        LocalDateTime startTime1 = LocateDateUtil.getLocalDateTime(new Date());
+        packAge.setLoaclDateTime(startTime1);
+        packAgeResponsity.save(packAge);
+        packAgeResponsity.save(packAge1);
+
+        //when
+        String result=this.mockMvc.perform(get("/packages").param("state","已预约")
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk()).andReturn().getResponse().getContentAsString();
+        //then
+        JSONArray jsonArray=new JSONArray(result);
+
+        Assertions.assertEquals(1,jsonArray.length());
+        Assertions.assertEquals("customer1",jsonArray.getJSONObject(0).getString("customerName"));
+
+    }
+
 
 
 }

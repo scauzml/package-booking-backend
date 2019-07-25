@@ -29,5 +29,10 @@ public class PackAgeController {
         return ResponseEntity.ok().body(packAgeList);
     }
 
+    @GetMapping(params = {"state"})
+    public ResponseEntity getParkingLotByPage(@RequestParam("state")String state) {
+        List<PackAge> packAgeList=packAgeSevice.findByState(state);
+        return ResponseEntity.ok().body(packAgeList);
+    }
 
 }

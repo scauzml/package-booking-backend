@@ -24,4 +24,9 @@ public class PackAgeSevice {
         return all;
 
     }
+
+    public List<PackAge> findByState(String state) {
+        List<PackAge> byState = packAgeResponsity.findByState(state);
+        return byState;
+    }
 }
