@@ -7,7 +7,6 @@ import java.time.LocalDateTime;
 @Table(name = "pack_age")
 public class PackAge {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
     private  int id;
    @Column(name = "customer_name")
     private String customerName;
