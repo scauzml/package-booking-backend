@@ -6,10 +6,9 @@ import com.oocl.packagebooking.service.PackAgeSevice;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/packages")
@@ -23,4 +22,12 @@ public class PackAgeController {
         PackAge packAge1=packAgeSevice.save(packAge);
         return packAge1!=null? ResponseEntity.status(HttpStatus.CREATED).body(packAge1):ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
     }
+
+    @GetMapping()
+    public ResponseEntity getParkingLotByPage() {
+         List<PackAge> packAgeList=packAgeSevice.findAll();
+        return ResponseEntity.ok().body(packAgeList);
+    }
+
+
 }
